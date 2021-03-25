@@ -1,4 +1,4 @@
-package com.zygisau.medium
+package com.example.minimum
 
 import org.junit.Test
 

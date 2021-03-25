@@ -4,59 +4,76 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:fitsSystemWindows="true"
+    tools:context=".ui.MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
+        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/Theme.Medium.AppBarOverlay"
-        app:elevation="0dp">
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        android:elevation="0dp"
+        app:liftOnScroll="true">
 
-        <RelativeLayout
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/app_toolbar"
+            style="@style/HeaderBar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="#FFFFFF">
+            android:layout_height="wrap_content"
+            android:background="?attr/colorSecondary"
+            android:elevation="0dp"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+            <RelativeLayout
+                android:id="@+id/relativeLayout"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/white">
-                <ImageView
-                    android:id="@+id/imageView"
+                android:layout_height="match_parent"
+                android:elevation="0dp">
+
+                <TextView
+                    android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/search_icon" />
-            </androidx.appcompat.widget.Toolbar>
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/nunito_light"
+                    android:text="@string/app_title"
+                    android:textSize="24sp" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_alignParentBottom="true"
-                android:background="#ddd" />
-        </RelativeLayout>
-
+                <ImageView
+                    android:id="@+id/search_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="15dp"
+                    app:srcCompat="@drawable/ic_baseline_search_24" />
+            </RelativeLayout>
+        </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_main" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listRecycleView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        app:layoutManager="LinearLayoutManager"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <TextView
-        android:id="@+id/header_title"
+    <TextView android:id="@+id/emptyList"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/nunito_light"
-        android:text="Minimum"
-        android:textSize="24sp"
-        app:layout_anchor="@+id/appBarLayout"
-        app:layout_anchorGravity="center" />
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/no_results"
+        android:textSize="@dimen/repo_name_size"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <include
+        android:id="@+id/footer_container"
+        layout="@layout/main_footer" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
