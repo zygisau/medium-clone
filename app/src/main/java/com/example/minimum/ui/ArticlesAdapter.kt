@@ -2,6 +2,7 @@ package com.example.minimum.ui
 
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.minimum.R
@@ -9,7 +10,7 @@ import com.example.minimum.model.Article
 import com.squareup.picasso.Picasso
 
 
-class ArticlesAdapter : ListAdapter<Article, ArticlesViewHolder>(COMPARATOR) {
+class ArticlesAdapter : PagingDataAdapter<Article, ArticlesViewHolder>(COMPARATOR) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticlesViewHolder {
         return ArticlesViewHolder.create(parent)
     }

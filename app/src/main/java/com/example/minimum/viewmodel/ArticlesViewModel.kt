@@ -7,9 +7,13 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.example.minimum.data.ArticleRepository
+import com.example.minimum.model.Article
 import com.example.minimum.model.ArticleResult
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 /**
@@ -18,30 +22,16 @@ import kotlinx.coroutines.launch
  */
 class ArticlesViewModel(private val repository: ArticleRepository) : ViewModel() {
 
-    companion object {
-        private const val VISIBLE_THRESHOLD = 5
-    }
+    private var currentSearchResult: Flow<PagingData<Article>>? = null
 
-    private val queryLiveData = MutableLiveData<String>()
-    val articleResult: LiveData<ArticleResult> = queryLiveData.switchMap {
-        liveData {
-            val articles = repository.getArticlesStream().asLiveData(Dispatchers.Main)
-            emitSource(articles)
+    fun getArticles(): Flow<PagingData<Article>> {
+        val lastResult = currentSearchResult
+        if (lastResult != null) {
+            return lastResult
         }
-    }
-
-    fun getArticles() {
-        queryLiveData.postValue("more")
-    }
-
-    fun listScrolled(visibleItemCount: Int, lastVisibleItemPosition: Int, totalItemCount: Int) {
-        if (visibleItemCount + lastVisibleItemPosition + VISIBLE_THRESHOLD >= totalItemCount) {
-            val immutableQuery = queryLiveData.value
-            if (immutableQuery != null) {
-                viewModelScope.launch {
-                    repository.requestMore()
-                }
-            }
-        }
+        val newResult: Flow<PagingData<Article>> = repository.getArticlesStream()
+                .cachedIn(viewModelScope)
+        currentSearchResult = newResult
+        return newResult
     }
 }
