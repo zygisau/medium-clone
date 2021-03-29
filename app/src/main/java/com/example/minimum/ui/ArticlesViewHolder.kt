@@ -31,7 +31,7 @@ class ArticlesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         view.setOnClickListener {
             article?.let {
                 val intent = Intent(view.context, ArticleActivity::class.java).apply {
-                    putExtra(EXTRA_MESSAGE, article!!.id)
+                    putExtra(EXTRA_MESSAGE, article)
                 }
                 val activity = view.context as Activity
                 activity.startActivity(intent)

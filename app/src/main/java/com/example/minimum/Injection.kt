@@ -16,7 +16,7 @@ object Injection {
      * Creates an instance of [ArticleRepository] based on the [ArticleService] and a
      * [ArticleLocalCache]
      */
-    private fun provideGithubRepository(): ArticleRepository {
+    private fun provideArticleRepository(): ArticleRepository {
         return ArticleRepository(ArticleService.create())
     }
 
@@ -25,6 +25,6 @@ object Injection {
      * [ViewModel] objects.
      */
     fun provideViewModelFactory(): ViewModelProvider.Factory {
-        return ViewModelFactory(provideGithubRepository())
+        return ViewModelFactory(provideArticleRepository())
     }
 }

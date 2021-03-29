@@ -1,8 +1,11 @@
 package com.example.minimum.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import java.time.LocalDateTime
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Article(
         @field:SerializedName("id") val id: String,
         @field:SerializedName("blog") val blog: Blog,
@@ -15,5 +18,5 @@ data class Article(
         @field:SerializedName("contentMarkup") val contentMarkup: String? = null,
         @field:SerializedName("isLargePreview") val isLargePreview: Boolean = false,
         @field:SerializedName("likes") val likes: Int = 0,
-        @field:SerializedName("tags") val tags: List<String>? = null) {
+        @field:SerializedName("tags") val tags: List<String>? = null) : Parcelable {
 }
