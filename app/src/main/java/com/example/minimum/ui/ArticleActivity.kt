@@ -25,7 +25,6 @@ class ArticleActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityArticleBinding
     private lateinit var viewModel: ArticleViewModel
-//    private var scrollLayoutHeight: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,19 +35,8 @@ class ArticleActivity : AppCompatActivity() {
 
         recoverArticle()
         observeViewModel()
-//        getLayoutHeight()
         startObservingContentScroll()
     }
-
-//    private fun getLayoutHeight() {
-//        binding.articleRoot.viewTreeObserver.addOnGlobalLayoutListener(
-//                object : ViewTreeObserver.OnGlobalLayoutListener {
-//                    override fun onGlobalLayout() {
-//                        scrollLayoutHeight = binding.contentScroll.measuredHeight
-//                        binding.articleRoot.viewTreeObserver.removeOnGlobalLayoutListener(this)
-//                    }
-//                })
-//    }
 
     private fun initViewBinding() {
         binding = ActivityArticleBinding.inflate(layoutInflater)
