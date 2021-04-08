@@ -14,7 +14,7 @@ import com.example.minimum.model.Article
 import java.time.format.DateTimeFormatter
 
 
-const val EXTRA_MESSAGE = "com.example.minimum.ARTICLE_ID"
+const val ARTICLE_ITEM_KEY = "com.example.minimum.ARTICLE"
 
 class ArticlesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private var title: TextView = view.findViewById(R.id.article_title);
@@ -31,7 +31,7 @@ class ArticlesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         view.setOnClickListener {
             article?.let {
                 val intent = Intent(view.context, ArticleActivity::class.java).apply {
-                    putExtra(EXTRA_MESSAGE, article)
+                    putExtra(ARTICLE_ITEM_KEY, article)
                 }
                 val activity = view.context as Activity
                 activity.startActivity(intent)

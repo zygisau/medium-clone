@@ -37,7 +37,7 @@ interface ArticleService {
                 .setDateFormat(TIMESTAMP_FORMAT)
                 .registerTypeAdapter(
                     LocalDateTime::class.java,
-                    JsonDeserializer<LocalDateTime>() { json, typeOfT, context ->
+                    JsonDeserializer() { json, _, _ ->
                         if (json != null) {
                             val formatter: DateTimeFormatter =
                                 DateTimeFormatter.ofPattern(TIMESTAMP_FORMAT)

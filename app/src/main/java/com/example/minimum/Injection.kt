@@ -24,7 +24,7 @@ object Injection {
      * Provides the [ViewModelProvider.Factory] that is then used to get a reference to
      * [ViewModel] objects.
      */
-    fun provideViewModelFactory(): ViewModelProvider.Factory {
+    fun provideArticlesViewModelFactory(): ViewModelProvider.Factory {
         return ViewModelFactory(provideArticleRepository())
     }
 }
