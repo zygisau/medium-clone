@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context=".ui.ArticleActivity"
-    android:id="@+id/article_root">
+    android:id="@+id/article_root"
+    android:animateLayoutChanges="true">
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
@@ -41,15 +42,13 @@
                     android:text="@string/app_title"
                     android:textSize="24sp" />
 
-                <ImageView
+                <Button
                     android:id="@+id/search_icon"
-                    android:layout_width="30dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="10dp"
-                    app:srcCompat="@drawable/ic_baseline_keyboard_arrow_left_24"
-                    app:tint="#DD575757" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:iconSize="35dp"
+                    app:icon="@drawable/ic_baseline_keyboard_arrow_left_24"
+                    style="@style/Widget.MaterialComponents.Button.TextButton" />
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
@@ -61,8 +60,7 @@
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:isScrollContainer="true"
-        android:layout_marginBottom="50dp"
-        android:animateLayoutChanges="true">
+        android:layout_marginBottom="50dp">
         <ScrollView
             android:id="@+id/content_scroll"
             android:layout_width="match_parent"
@@ -197,27 +195,88 @@
                         android:text="@string/dummy_article_text">
                     </TextView>
                 </LinearLayout>
-                <RelativeLayout
-                    android:id="@+id/content_footer"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@color/teal_200">
-                </RelativeLayout>
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal"
+                    android:weightSum="3">
+                        <LinearLayout
+                            android:layout_width="0dip"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:gravity="center">
+                            <Button
+                                android:id="@+id/like"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:icon="@drawable/ic_baseline_thumb_up_white_24"
+                                style="@style/Widget.App.Button.Button.IconOnly"
+                                android:textColor="?attr/colorOnPrimary"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dip"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:gravity="center">
+                            <Button
+                                android:id="@+id/comment"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:icon="@drawable/ic_baseline_add_comment_white_24"
+                                style="@style/Widget.App.Button.Button.IconOnly"
+                                android:textColor="?attr/colorOnPrimary"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dip"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:gravity="center">
+                            <Button
+                                android:id="@+id/share"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:icon="@drawable/ic_baseline_share_white_24"
+                                style="@style/Widget.App.Button.Button.IconOnly"
+                                android:textColor="?attr/colorOnPrimary"/>
+                        </LinearLayout>
+                </LinearLayout>
                 <RelativeLayout
                     android:id="@+id/article_footer"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:background="@color/purple_200">
+                    android:background="#9E9E9E">
                 </RelativeLayout>
             </LinearLayout>
         </ScrollView>
-        <RelativeLayout
-            android:id="@+id/content_footer_temp"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/teal_200"
-            android:visibility="visible">
-        </RelativeLayout>
     </LinearLayout>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        app:layout_behavior="com.example.minimum.ui.ScrollAwareFABBehavior"
+        android:id="@+id/floating_like"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:layout_margin="10dp"
+        app:srcCompat="@drawable/ic_baseline_thumb_up_white_24"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        app:layout_behavior="com.example.minimum.ui.ScrollAwareFABBehavior"
+        android:id="@+id/floating_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_margin="10dp"
+        app:srcCompat="@drawable/ic_baseline_add_comment_white_24"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        app:layout_behavior="com.example.minimum.ui.ScrollAwareFABBehavior"
+        android:id="@+id/floating_share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="10dp"
+        app:srcCompat="@drawable/ic_baseline_share_white_24"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -33,9 +33,16 @@ class ArticleActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, Injection.provideArticlesViewModelFactory())
                 .get(ArticleViewModel::class.java)
 
+        configureBackButton()
         recoverArticle()
         observeViewModel()
         startObservingContentScroll()
+    }
+
+    private fun configureBackButton() {
+        binding.searchIcon.setOnClickListener {
+            this.onBackPressed();
+        }
     }
 
     private fun initViewBinding() {
@@ -73,10 +80,12 @@ class ArticleActivity : AppCompatActivity() {
             val scrollY = binding.contentScroll.scrollY
             val scrolledHeight = scrollY + screenHeight
             val newVisibility = if (scrolledHeight > binding.contentContainer.height) View.GONE else View.VISIBLE
-            Log.d(Log.DEBUG.toString(), "screenHeight: $screenHeight scrollY: $scrollY scrolledHeight: $scrolledHeight newVisibility: $newVisibility")
-            if (binding.contentFooterTemp.visibility != newVisibility) {
+//            Log.d(Log.DEBUG.toString(), "screenHeight: $screenHeight scrollY: $scrollY scrolledHeight: $scrolledHeight newVisibility: $newVisibility")
+            if (binding.floatingLike.visibility != newVisibility) {
                 Handler(Looper.getMainLooper()).post {
-                    binding.contentFooterTemp.visibility = newVisibility
+                    binding.floatingLike.visibility = newVisibility
+                    binding.floatingComment.visibility = newVisibility
+                    binding.floatingShare.visibility = newVisibility
                 }
             }
         }

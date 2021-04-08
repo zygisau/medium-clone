@@ -3,4 +3,14 @@
     <style name="HeaderBar">
         <item name="background">@color/purple_500</item>
     </style>
+    <style name="Widget.App.Button.Button.IconOnly" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="iconPadding">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="backgroundTint">@color/rounded_icon</item>
+    </style>
 </resources>
