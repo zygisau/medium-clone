@@ -38,6 +38,7 @@ class ArticleActivity : AppCompatActivity() {
         configureBackButton()
         recoverArticle()
         observeViewModel()
+        startObservingContentScroll()
     }
 
     private fun configureBackButton() {
@@ -82,7 +83,7 @@ class ArticleActivity : AppCompatActivity() {
         binding.articleMain.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { view, scrollX, scrollY, oldScrollX, oldScrollY ->
             val screenHeight = (this as Context).resources.displayMetrics.heightPixels
             val scrolledHeight = scrollY + screenHeight
-            val newVisibility = if (scrolledHeight > binding.contentScroll.height) View.GONE else View.VISIBLE
+            val newVisibility = if (scrolledHeight > binding.contentContainer.height) View.GONE else View.VISIBLE
             Log.d(Log.DEBUG.toString(), "screenHeight: $screenHeight scrollY: $scrollY scrolledHeight: $scrolledHeight newVisibility: $newVisibility")
             var newIsFabsHidden = newVisibility == View.GONE
             if (binding.floatingLike.visibility != newVisibility && newIsFabsHidden != isFabsHidden) {
