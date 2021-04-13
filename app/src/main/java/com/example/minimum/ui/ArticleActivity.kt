@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewTreeObserver
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
+import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModelProvider
 import com.example.minimum.Injection
 import com.example.minimum.R
@@ -25,6 +26,7 @@ class ArticleActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityArticleBinding
     private lateinit var viewModel: ArticleViewModel
+    private var isFabsHidden: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,12 +38,13 @@ class ArticleActivity : AppCompatActivity() {
         configureBackButton()
         recoverArticle()
         observeViewModel()
-        startObservingContentScroll()
     }
 
     private fun configureBackButton() {
         binding.searchIcon.setOnClickListener {
-            this.onBackPressed();
+            Handler(Looper.getMainLooper()).post {
+                this.onBackPressed();
+            }
         }
     }
 
@@ -49,6 +52,7 @@ class ArticleActivity : AppCompatActivity() {
         binding = ActivityArticleBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+        setSupportActionBar(findViewById(R.id.app_toolbar));
     }
 
     private fun recoverArticle() {
@@ -75,20 +79,25 @@ class ArticleActivity : AppCompatActivity() {
     }
 
     private fun startObservingContentScroll() {
-        binding.contentContainer.viewTreeObserver.addOnScrollChangedListener{
+        binding.articleMain.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { view, scrollX, scrollY, oldScrollX, oldScrollY ->
             val screenHeight = (this as Context).resources.displayMetrics.heightPixels
-            val scrollY = binding.contentScroll.scrollY
             val scrolledHeight = scrollY + screenHeight
-            val newVisibility = if (scrolledHeight > binding.contentContainer.height) View.GONE else View.VISIBLE
-//            Log.d(Log.DEBUG.toString(), "screenHeight: $screenHeight scrollY: $scrollY scrolledHeight: $scrolledHeight newVisibility: $newVisibility")
-            if (binding.floatingLike.visibility != newVisibility) {
-                Handler(Looper.getMainLooper()).post {
-                    binding.floatingLike.visibility = newVisibility
-                    binding.floatingComment.visibility = newVisibility
-                    binding.floatingShare.visibility = newVisibility
-                }
+            val newVisibility = if (scrolledHeight > binding.contentScroll.height) View.GONE else View.VISIBLE
+            Log.d(Log.DEBUG.toString(), "screenHeight: $screenHeight scrollY: $scrollY scrolledHeight: $scrolledHeight newVisibility: $newVisibility")
+            var newIsFabsHidden = newVisibility == View.GONE
+            if (binding.floatingLike.visibility != newVisibility && newIsFabsHidden != isFabsHidden) {
+                isFabsHidden = newVisibility == View.GONE
+                    if (newVisibility == View.GONE) {
+                        binding.floatingLike.hide()
+                        binding.floatingComment.hide()
+                        binding.floatingShare.hide()
+                    } else {
+                        binding.floatingLike.show()
+                        binding.floatingComment.show()
+                        binding.floatingShare.show()
+                    }
             }
-        }
+        })
     }
 
     private fun bindContent(item: Article) {
@@ -109,7 +118,7 @@ class ArticleActivity : AppCompatActivity() {
     }
 
     private fun bindDate(item: Article) {
-        val formatter = DateTimeFormatter.ofPattern("YYYY:MM:DD HH:mm")
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm")
         binding.date.text = item.date.format(formatter).toString()
     }
 

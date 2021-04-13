@@ -58,7 +58,7 @@ class ArticlesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         subtitle.text = article.subtitle
         author.text = article.user.username
 
-        val formatter = DateTimeFormatter.ofPattern("YYYY:MM:DD HH:mm")
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm")
         date.text = article.date.format(formatter).toString()
 
         minutesToRead.text = article.readTimeEstimate.toString()

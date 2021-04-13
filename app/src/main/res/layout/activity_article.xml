@@ -8,22 +8,51 @@
     tools:context=".ui.ArticleActivity"
     android:id="@+id/article_root"
     android:animateLayoutChanges="true">
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_like"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_gravity="bottom|start"
+        app:srcCompat="@drawable/ic_baseline_thumb_up_white_24"
+        app:fabSize="mini"
+        android:contentDescription="TODO" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="bottom|start"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/ic_baseline_add_comment_white_24" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_gravity="bottom|end"
+        app:srcCompat="@drawable/ic_baseline_share_white_24"
+        app:fabSize="mini"/>
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        android:elevation="0dp"
-        app:liftOnScroll="true">
+        android:elevation="0dp">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/app_toolbar"
             style="@style/HeaderBar"
+            android:minHeight="?attr/actionBarSize"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorSecondary"
             android:elevation="0dp"
-            app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:layout_scrollFlags="scroll|enterAlways"
             app:contentInsetLeft="0dp"
             app:contentInsetStart="0dp">
 
@@ -45,41 +74,44 @@
                 <Button
                     android:id="@+id/search_icon"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     app:iconSize="35dp"
                     app:icon="@drawable/ic_baseline_keyboard_arrow_left_24"
-                    style="@style/Widget.MaterialComponents.Button.TextButton" />
+                    app:rippleColor="#E6E6E6"
+                    style="@style/Widget.App.Button.Button.SmallPaddingButton" />
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/article_main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:isScrollContainer="true"
-        android:layout_marginBottom="50dp">
+        android:isScrollContainer="true">
+
         <ScrollView
             android:id="@+id/content_scroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintTop_toTopOf="parent">
+
                 <LinearLayout
                     android:id="@+id/content_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="10sp" >
+                        android:padding="10sp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -106,8 +138,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/nunito_light"
-                                    android:textColor="?attr/colorOnSecondary"
                                     android:text="@string/dummy_article_subtitle_full"
+                                    android:textColor="?attr/colorOnSecondary"
                                     android:textSize="21sp"
                                     android:textStyle="bold" />
                             </LinearLayout>
@@ -116,6 +148,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
+
                                 <TextView
                                     android:id="@+id/author"
                                     android:layout_width="wrap_content"
@@ -138,21 +171,22 @@
                                     android:textSize="15sp"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent" />
+
                                 <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:includeFontPadding="false"
                                     app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent" >
+                                    app:layout_constraintEnd_toEndOf="parent">
 
                                     <ImageView
                                         android:id="@+id/time_icon"
                                         android:layout_width="13dp"
                                         android:layout_height="match_parent"
                                         android:layout_weight="1"
-                                        app:srcCompat="@drawable/ic_baseline_access_time_24"
                                         app:layout_constraintBottom_toBottomOf="parent"
-                                        app:layout_constraintEnd_toEndOf="parent" />
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:srcCompat="@drawable/ic_baseline_access_time_24" />
 
                                     <TextView
                                         android:id="@+id/time_to_read"
@@ -164,6 +198,7 @@
                                         android:textSize="15sp"
                                         app:layout_constraintBottom_toBottomOf="parent"
                                         app:layout_constraintEnd_toEndOf="parent" />
+
                                     <TextView
                                         android:id="@+id/time_to_read_text"
                                         android:layout_width="wrap_content"
@@ -178,105 +213,83 @@
                             </LinearLayout>
                         </LinearLayout>
                     </RelativeLayout>
+
                     <ImageView
                         android:id="@+id/articleImage"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="30sp"
                         android:maxHeight="500sp"
-                        app:srcCompat="@drawable/coffe"
-                        android:layout_marginBottom="30sp"/>
+                        app:srcCompat="@drawable/coffe" />
+
                     <TextView
                         android:id="@+id/content"
-                        android:layout_height="wrap_content"
                         android:layout_width="match_parent"
-                        android:paddingTop="10sp"
+                        android:layout_height="wrap_content"
                         android:paddingLeft="10sp"
+                        android:paddingTop="10sp"
                         android:paddingRight="10sp"
-                        android:text="@string/dummy_article_text">
-                    </TextView>
+                        android:text="@string/dummy_article_text" />
                 </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center_horizontal"
-                    android:weightSum="3">
-                        <LinearLayout
-                            android:layout_width="0dip"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content"
-                            android:gravity="center">
-                            <Button
-                                android:id="@+id/like"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:icon="@drawable/ic_baseline_thumb_up_white_24"
-                                style="@style/Widget.App.Button.Button.IconOnly"
-                                android:textColor="?attr/colorOnPrimary"/>
-                        </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="0dip"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content"
-                            android:gravity="center">
-                            <Button
-                                android:id="@+id/comment"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:icon="@drawable/ic_baseline_add_comment_white_24"
-                                style="@style/Widget.App.Button.Button.IconOnly"
-                                android:textColor="?attr/colorOnPrimary"/>
-                        </LinearLayout>
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center_horizontal"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:weightSum="3">-->
 
-                        <LinearLayout
-                            android:layout_width="0dip"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content"
-                            android:gravity="center">
-                            <Button
-                                android:id="@+id/share"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:icon="@drawable/ic_baseline_share_white_24"
-                                style="@style/Widget.App.Button.Button.IconOnly"
-                                android:textColor="?attr/colorOnPrimary"/>
-                        </LinearLayout>
-                </LinearLayout>
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="0dip"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:gravity="center">-->
+
+<!--                        <Button-->
+<!--                            android:id="@+id/like"-->
+<!--                            style="@style/Widget.App.Button.Button.IconOnly"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:textColor="?attr/colorOnPrimary"-->
+<!--                            app:icon="@drawable/ic_baseline_thumb_up_white_24" />-->
+<!--                    </LinearLayout>-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="0dip"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:gravity="center">-->
+
+<!--                        <Button-->
+<!--                            android:id="@+id/comment"-->
+<!--                            style="@style/Widget.App.Button.Button.IconOnly"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:textColor="?attr/colorOnPrimary"-->
+<!--                            app:icon="@drawable/ic_baseline_add_comment_white_24" />-->
+<!--                    </LinearLayout>-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="0dip"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:gravity="center">-->
+
+<!--                        <Button-->
+<!--                            android:id="@+id/share"-->
+<!--                            style="@style/Widget.App.Button.Button.IconOnly"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:textColor="?attr/colorOnPrimary"-->
+<!--                            app:icon="@drawable/ic_baseline_share_white_24" />-->
+<!--                    </LinearLayout>-->
+<!--                </LinearLayout>-->
+
                 <RelativeLayout
                     android:id="@+id/article_footer"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:background="#9E9E9E">
-                </RelativeLayout>
+                    android:layout_height="30dp" />
             </LinearLayout>
         </ScrollView>
-    </LinearLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        app:layout_behavior="com.example.minimum.ui.ScrollAwareFABBehavior"
-        android:id="@+id/floating_like"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|start"
-        android:layout_margin="10dp"
-        app:srcCompat="@drawable/ic_baseline_thumb_up_white_24"/>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        app:layout_behavior="com.example.minimum.ui.ScrollAwareFABBehavior"
-        android:id="@+id/floating_comment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
-        android:layout_margin="10dp"
-        app:srcCompat="@drawable/ic_baseline_add_comment_white_24"/>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        app:layout_behavior="com.example.minimum.ui.ScrollAwareFABBehavior"
-        android:id="@+id/floating_share"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="10dp"
-        app:srcCompat="@drawable/ic_baseline_share_white_24"/>
+    </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
