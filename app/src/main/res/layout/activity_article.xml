@@ -242,14 +242,13 @@
                         android:layout_height="1dp"
                         android:background="#d3d3d3"
                         android:layout_alignParentTop="true"/>
-                    <Button
+                    <CheckBox
                         android:id="@+id/like_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:icon="@drawable/ic_outline_thumb_up_alt_24"
-                        style="@style/Widget.App.Button.Button.IconOnly"
-                        android:layout_marginStart="10dp"
-                        android:foregroundTint="?attr/colorSecondary"/>
+                        android:background="@drawable/like_icon"
+                        style="@style/MinimumCheckboxIconOnly"
+                        android:layout_centerVertical="true" />
                     <Button
                         android:id="@+id/comment_button"
                         android:layout_width="wrap_content"
@@ -258,15 +257,15 @@
                         style="@style/Widget.App.Button.Button.IconOnly"
                         android:foregroundTint="?attr/colorSecondary"
                         android:layout_toEndOf="@+id/like_button"/>
-                    <Button
+                    <CheckBox
                         android:id="@+id/bookmark_button"
-                        style="@style/Widget.App.Button.Button.IconOnly"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/bookmark_icon"
                         android:layout_toStartOf="@+id/share_button"
                         android:layout_marginEnd="10dp"
-                        android:foregroundTint="?attr/colorSecondary"
-                        app:icon="@drawable/ic_baseline_bookmark_border_24" />
+                        style="@style/MinimumCheckboxIconOnly"
+                        android:layout_centerVertical="true" />
                     <Button
                         android:id="@+id/share_button"
                         style="@style/Widget.App.Button.Button.IconOnly"

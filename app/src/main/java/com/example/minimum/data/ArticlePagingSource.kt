@@ -6,6 +6,7 @@ import androidx.paging.PagingState
 import com.example.minimum.api.ArticleService
 import com.example.minimum.data.ArticleRepository.Companion.NETWORK_PAGE_SIZE
 import com.example.minimum.model.Article
+import com.example.minimum.model.ArticlesFilter
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -13,12 +14,12 @@ private const val ARTICLE_STARTING_PAGE_INDEX = 0
 
 class ArticlePagingSource (
         private val service: ArticleService,
-//        private val query: String
+        private val filter: ArticlesFilter
 ) : PagingSource<Int, Article>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Article> {
         val position = params.key ?: ARTICLE_STARTING_PAGE_INDEX
         return try {
-            val articles = service.getArticles(position, params.loadSize)
+            val articles = service.getArticles(filter.id, position, params.loadSize)
             val nextKey = if (articles.isEmpty()) {
                 null
             } else {

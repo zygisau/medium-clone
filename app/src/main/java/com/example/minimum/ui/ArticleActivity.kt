@@ -12,13 +12,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.minimum.Injection
 import com.example.minimum.R
 import com.example.minimum.databinding.ActivityArticleBinding
 import com.example.minimum.model.Article
+import com.example.minimum.storage.AppDatabase
 import com.example.minimum.utils.observe
 import com.example.minimum.viewmodel.ArticleViewModel
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import java.time.format.DateTimeFormatter
 
 
@@ -28,17 +33,29 @@ class ArticleActivity : AppCompatActivity() {
     private lateinit var viewModel: ArticleViewModel
     private var isFabsHidden: Boolean = false
 
+    private var loadJob: Job? = null;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initViewBinding()
 
-        viewModel = ViewModelProvider(this, Injection.provideArticlesViewModelFactory())
+        viewModel = ViewModelProvider(this, Injection.provideArticleViewModelFactory(this.applicationContext.applicationContext))
                 .get(ArticleViewModel::class.java)
 
         configureBackButton()
         recoverArticle()
         observeViewModel()
+        loadBookmarkIfSaved()
         startObservingContentScroll()
+        setFloatingButtonsListeners()
+    }
+
+    private fun loadBookmarkIfSaved() {
+        viewModel.article.observe(this) {
+            loadJob?.cancel()
+            loadJob = lifecycleScope.launch {
+                binding.bookmarkButton.isChecked = viewModel.isSavedAsBookmark()
+            }
+        }
     }
 
     private fun configureBackButton() {
@@ -80,11 +97,10 @@ class ArticleActivity : AppCompatActivity() {
     }
 
     private fun startObservingContentScroll() {
-        binding.articleMain.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { view, scrollX, scrollY, oldScrollX, oldScrollY ->
+        binding.articleMain.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, _ ->
             val screenHeight = (this as Context).resources.displayMetrics.heightPixels
             val scrolledHeight = scrollY + screenHeight
             val newVisibility = if (scrolledHeight > binding.contentContainer.height) View.GONE else View.VISIBLE
-            Log.d(Log.DEBUG.toString(), "screenHeight: $screenHeight scrollY: $scrollY scrolledHeight: $scrolledHeight newVisibility: $newVisibility")
             var newIsFabsHidden = newVisibility == View.GONE
             if (binding.floatingLike.visibility != newVisibility && newIsFabsHidden != isFabsHidden) {
                 isFabsHidden = newVisibility == View.GONE
@@ -126,5 +142,11 @@ class ArticleActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left)
+    }
+
+    private fun setFloatingButtonsListeners() {
+        binding.bookmarkButton.setOnClickListener {
+            viewModel.toggleBookmark()
+        }
     }
 }

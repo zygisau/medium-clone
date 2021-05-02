@@ -1,9 +1,12 @@
 package com.example.minimum
 
+import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import com.example.minimum.api.ArticleService
 import com.example.minimum.data.ArticleRepository
-import com.example.minimum.viewmodel.ViewModelFactory
+import com.example.minimum.data.BookmarksRepository
+import com.example.minimum.factory.ViewModelFactory
+import com.example.minimum.storage.AppDatabase
 
 /**
  * Class that handles object creation.
@@ -13,6 +16,22 @@ import com.example.minimum.viewmodel.ViewModelFactory
 object Injection {
 
     /**
+     * Provides the [ViewModelProvider.Factory] that is then used to get a reference to
+     * [ViewModel] objects.
+     */
+    fun provideArticlesViewModelFactory(): ViewModelProvider.Factory {
+        return ViewModelFactory(provideArticleRepository(), null)
+    }
+
+    fun provideBookmarksViewModelFactory(context: Context): ViewModelProvider.Factory {
+        return ViewModelFactory(provideArticleRepository(), provideBookmarksRepository(context))
+    }
+
+    fun provideArticleViewModelFactory(context: Context): ViewModelProvider.Factory {
+        return ViewModelFactory(provideArticleRepository(), provideBookmarksRepository(context))
+    }
+
+    /**
      * Creates an instance of [ArticleRepository] based on the [ArticleService] and a
      * [ArticleLocalCache]
      */
@@ -20,11 +39,8 @@ object Injection {
         return ArticleRepository(ArticleService.create())
     }
 
-    /**
-     * Provides the [ViewModelProvider.Factory] that is then used to get a reference to
-     * [ViewModel] objects.
-     */
-    fun provideArticlesViewModelFactory(): ViewModelProvider.Factory {
-        return ViewModelFactory(provideArticleRepository())
+    private fun provideBookmarksRepository(context: Context): BookmarksRepository {
+        return BookmarksRepository(AppDatabase.getInstance(context).bookmarkDao())
     }
+
 }

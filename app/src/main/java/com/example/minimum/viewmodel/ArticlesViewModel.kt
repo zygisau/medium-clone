@@ -12,6 +12,7 @@ import androidx.paging.cachedIn
 import com.example.minimum.data.ArticleRepository
 import com.example.minimum.model.Article
 import com.example.minimum.model.ArticleResult
+import com.example.minimum.model.ArticlesFilter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -29,7 +30,7 @@ class ArticlesViewModel(private val repository: ArticleRepository) : ViewModel()
         if (lastResult != null) {
             return lastResult
         }
-        val newResult: Flow<PagingData<Article>> = repository.getArticlesStream()
+        val newResult: Flow<PagingData<Article>> = repository.getArticlesStream(ArticlesFilter(null))
                 .cachedIn(viewModelScope)
         currentSearchResult = newResult
         return newResult
