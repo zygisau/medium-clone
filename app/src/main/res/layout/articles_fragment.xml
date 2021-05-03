@@ -12,42 +12,92 @@
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             app:liftOnScroll="true">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/app_toolbar"
-                style="@style/HeaderBar"
+<!--            android:layout_height="?attr/actionBarSize"-->
+<!--                            app:navigationIcon="@drawable/ic_menu_24dp"-->
+<!--                            style="@style/Widget.MaterialComponents.Toolbar.Primary"
+-->
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/colorSecondary"
-                android:elevation="0dp"
-                app:contentInsetLeft="0dp"
-                app:contentInsetStart="0dp"
-                app:layout_scrollFlags="scroll|enterAlways|snap">
-
-                <RelativeLayout
-                    android:id="@+id/relativeLayout"
+                android:layout_height="match_parent">
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/app_toolbar"
+                    app:menu="@menu/app_bar"
+                    style="@style/HeaderBar"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:elevation="0dp">
+                    android:layout_height="wrap_content"
+                    android:background="?attr/colorSecondary"
+                    android:elevation="0dp"
+                    app:contentInsetLeft="0dp"
+                    app:contentInsetStart="0dp"
+                    app:layout_scrollFlags="scroll|enterAlways|snap"
+                    app:titleTextColor="#00FFFFFF">
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/nunito_light"
+                        android:text="@string/app_title"
+                        android:textSize="24sp"
+                        android:layout_gravity="center_horizontal"/>
+                </com.google.android.material.appbar.MaterialToolbar>
+                <com.miguelcatalan.materialsearchview.MaterialSearchView
+                    android:id="@+id/search_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progress_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:trackThickness="2dp"
+                    android:visibility="gone"
+                    android:indeterminate="true"
+                    app:indicatorColor="?attr/colorPrimary"
+                    app:trackColor="?attr/colorOnPrimary"
+                    style="@style/Widget.MaterialComponents.LinearProgressIndicator"
+                    android:layout_alignParentBottom="true"/>
 
-                        <TextView
-                            android:id="@+id/textView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:fontFamily="@font/nunito_light"
-                            android:text="@string/app_title"
-                            android:textSize="24sp" />
+            </RelativeLayout>
+            <!--            <androidx.appcompat.widget.Toolbar-->
+<!--                android:id="@+id/app_toolbar"-->
+<!--                style="@style/HeaderBar"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:background="?attr/colorSecondary"-->
+<!--                android:elevation="0dp"-->
+<!--                app:contentInsetLeft="0dp"-->
+<!--                app:contentInsetStart="0dp"-->
+<!--                app:layout_scrollFlags="scroll|enterAlways|snap">-->
 
-                        <ImageView
-                            android:id="@+id/search_icon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginEnd="15dp"
-                            app:srcCompat="@drawable/ic_baseline_search_24" />
-                    </RelativeLayout>
-            </androidx.appcompat.widget.Toolbar>
+<!--                <RelativeLayout-->
+<!--                    android:id="@+id/relativeLayout"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:elevation="0dp">-->
+
+<!--                        <TextView-->
+<!--                            android:id="@+id/textView"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_centerInParent="true"-->
+<!--                            android:fontFamily="@font/nunito_light"-->
+<!--                            android:text="@string/app_title"-->
+<!--                            android:textSize="24sp" />-->
+
+<!--                        <ImageView-->
+<!--                            android:id="@+id/search_icon"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_alignParentEnd="true"-->
+<!--                            android:layout_centerVertical="true"-->
+<!--                            android:layout_marginEnd="15dp"-->
+<!--                            app:srcCompat="@drawable/ic_baseline_search_24" />-->
+<!--                    </RelativeLayout>-->
+<!--            </androidx.appcompat.widget.Toolbar>-->
+<!--            <com.miguelcatalan.materialsearchview.MaterialSearchView-->
+<!--                android:id="@+id/search_view"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content" />-->
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -57,5 +107,18 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="45dp"
             app:layoutManager="LinearLayoutManager"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            />
+
+        <TextView android:id="@+id/emptyList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="gone"
+            android:text="@string/no_results"
+            android:textSize="@dimen/repo_name_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout >

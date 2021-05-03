@@ -19,6 +19,7 @@ interface ArticleService {
     @GET("posts")
     suspend fun getArticles(
             @Query("id") id: List<String>? = null,
+            @Query("title") title: String? = null,
             @Query("_page") page: Int = 0,
             @Query("_limit") limit: Int = 20): List<Article>
     @GET("posts/{id}")

@@ -37,15 +37,6 @@
                     android:fontFamily="@font/nunito_light"
                     android:text="@string/bookmark_title"
                     android:textSize="24sp" />
-
-                <ImageView
-                    android:id="@+id/search_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="15dp"
-                    app:srcCompat="@drawable/ic_baseline_search_24" />
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>

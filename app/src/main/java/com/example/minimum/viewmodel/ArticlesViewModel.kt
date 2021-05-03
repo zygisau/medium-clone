@@ -15,6 +15,7 @@ import com.example.minimum.model.ArticleResult
 import com.example.minimum.model.ArticlesFilter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 /**
@@ -23,16 +24,35 @@ import kotlinx.coroutines.launch
  */
 class ArticlesViewModel(private val repository: ArticleRepository) : ViewModel() {
 
+    private val result: MutableLiveData<PagingData<Article>> by lazy {
+        MutableLiveData<PagingData<Article>>()
+    }
     private var currentSearchResult: Flow<PagingData<Article>>? = null
+    private var currentSearchQuery: String? = null
 
-    fun getArticles(): Flow<PagingData<Article>> {
+    private suspend fun load(query: String? = null) {
         val lastResult = currentSearchResult
-        if (lastResult != null) {
-            return lastResult
+        val lastQuery = currentSearchQuery
+        if (lastResult != null && lastQuery == query) {
+            lastResult.collectLatest {
+                result.postValue(it)
+            }
         }
-        val newResult: Flow<PagingData<Article>> = repository.getArticlesStream(ArticlesFilter(null))
+        val filter = ArticlesFilter(title = query)
+        val newResult: Flow<PagingData<Article>> = repository.getArticlesStream(filter)
                 .cachedIn(viewModelScope)
         currentSearchResult = newResult
-        return newResult
+        currentSearchQuery = query
+        newResult.collectLatest {
+            result.postValue(it)
+        }
     }
+
+    fun loadArticles(query: String?) {
+        viewModelScope.launch(){
+            load(query)
+        }
+    }
+
+    fun getArticles(): LiveData<PagingData<Article>> = result
 }

@@ -19,7 +19,7 @@ class ArticlePagingSource (
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Article> {
         val position = params.key ?: ARTICLE_STARTING_PAGE_INDEX
         return try {
-            val articles = service.getArticles(filter.id, position, params.loadSize)
+            val articles = service.getArticles(filter.id, filter.title, position, params.loadSize)
             val nextKey = if (articles.isEmpty()) {
                 null
             } else {

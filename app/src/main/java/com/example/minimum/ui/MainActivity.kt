@@ -1,20 +1,17 @@
 package com.example.minimum.ui
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.minimum.Injection
 import com.example.minimum.R
 import com.example.minimum.databinding.ActivityMainBinding
 import com.example.minimum.viewmodel.ArticlesViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
@@ -54,17 +51,24 @@ class MainActivity : AppCompatActivity() {
         addFragment(ArticlesFragment::class.java)
     }
 
-    private fun <T: Fragment> replaceFragment(fragmentClass: Class<T>) {
+    private fun <T : Fragment> replaceFragment(fragmentClass: Class<T>) {
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment_container_view, fragmentClass, null)
         transaction.addToBackStack(null)
         transaction.commit()
     }
 
-    private fun <T: Fragment> addFragment(fragmentClass: Class<T>) {
+    private fun <T : Fragment> addFragment(fragmentClass: Class<T>) {
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
         transaction.add(R.id.fragment_container_view, fragmentClass, null)
         transaction.addToBackStack(null)
         transaction.commit()
     }
+
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        menuInflater.inflate(R.menu.menu_main, menu)
+//        val item: MenuItem = menu!!.findItem(R.id.action_search)
+//        searchView.setMenuItem(item)
+//        return true
+//    }
 }
