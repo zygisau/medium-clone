@@ -61,9 +61,9 @@ interface ArticleService {
                         if (json != null) {
                             val formatter: DateTimeFormatter =
                                 DateTimeFormatter.ofPattern(TIMESTAMP_FORMAT)
-                            LocalDateTime.parse(json.asString, formatter);
+                            return@JsonDeserializer LocalDateTime.parse(json.asString, formatter);
                         }
-                        LocalDateTime.now()
+                        return@JsonDeserializer LocalDateTime.now()
                     })
                 .create()
 

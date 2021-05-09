@@ -10,14 +10,12 @@ class SimpleFragmentManager<T: FragmentActivity>(private val activity: T) {
     fun <T : Fragment> replaceFragment(fragmentClass: Class<T>, id: Int) {
         val transaction: FragmentTransaction = activity.supportFragmentManager.beginTransaction()
         transaction.replace(id, fragmentClass, null)
-        transaction.addToBackStack(null)
         transaction.commit()
     }
 
     fun <T : Fragment> addFragment(fragmentClass: Class<T>, id: Int) {
         val transaction: FragmentTransaction = activity.supportFragmentManager.beginTransaction()
         transaction.add(id, fragmentClass, null)
-        transaction.addToBackStack(null)
         transaction.commit()
     }
 
@@ -30,7 +28,6 @@ class SimpleFragmentManager<T: FragmentActivity>(private val activity: T) {
             } else {
                 transaction.hide(fragment)
             }
-            transaction.addToBackStack(null)
             transaction.commit()
         } else {
             throw InvalidObjectException("Fragment is not loaded yet")

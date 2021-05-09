@@ -34,7 +34,7 @@ class CommentsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         name.text = comment.name
         content.text = comment.comment
 
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm")
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
         date.text = comment.date.format(formatter).toString()
     }
 

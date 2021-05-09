@@ -28,7 +28,7 @@ class CommentsViewModel(private val repository: CommentsRepository) : ViewModel(
             }
             return
         }
-        val filter = CommentFilter(articleId, "date")
+        val filter = CommentFilter(articleId, "date", "desc")
         val newResult: Flow<PagingData<Comment>> = repository.getCommentsStream(filter)
             .cachedIn(viewModelScope)
         currentSearchResult = newResult
