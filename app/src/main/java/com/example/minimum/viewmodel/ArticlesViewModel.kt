@@ -37,6 +37,7 @@ class ArticlesViewModel(private val repository: ArticleRepository) : ViewModel()
             lastResult.collectLatest {
                 result.postValue(it)
             }
+            return
         }
         val filter = ArticlesFilter(title = query)
         val newResult: Flow<PagingData<Article>> = repository.getArticlesStream(filter)

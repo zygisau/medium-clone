@@ -31,8 +31,6 @@ class ArticlesFragment : Fragment(R.layout.articles_fragment) {
     private lateinit var searchView: MaterialSearchView
     private lateinit var progressBar: LinearProgressIndicator
 
-    private var loadJob: Job? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ArticlesFragmentBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this, Injection.provideArticlesViewModelFactory())

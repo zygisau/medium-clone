@@ -11,6 +11,8 @@ import android.view.ViewTreeObserver
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import androidx.core.widget.NestedScrollView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.minimum.Injection
@@ -18,6 +20,7 @@ import com.example.minimum.R
 import com.example.minimum.databinding.ActivityArticleBinding
 import com.example.minimum.model.Article
 import com.example.minimum.storage.AppDatabase
+import com.example.minimum.utils.SimpleFragmentManager
 import com.example.minimum.utils.observe
 import com.example.minimum.viewmodel.ArticleViewModel
 import com.squareup.picasso.Picasso
@@ -32,6 +35,7 @@ class ArticleActivity : AppCompatActivity() {
     private lateinit var binding: ActivityArticleBinding
     private lateinit var viewModel: ArticleViewModel
     private var isFabsHidden: Boolean = false
+    private val simpleFragmentManager = SimpleFragmentManager(this)
 
     private var loadJob: Job? = null;
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,6 +51,8 @@ class ArticleActivity : AppCompatActivity() {
         loadBookmarkIfSaved()
         startObservingContentScroll()
         setFloatingButtonsListeners()
+
+        simpleFragmentManager.addFragment(CommentsFragment::class.java, R.id.fragment_comments_view)
     }
 
     private fun loadBookmarkIfSaved() {
@@ -149,4 +155,5 @@ class ArticleActivity : AppCompatActivity() {
             viewModel.toggleBookmark()
         }
     }
+
 }

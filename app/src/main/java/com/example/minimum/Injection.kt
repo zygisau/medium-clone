@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.minimum.api.ArticleService
 import com.example.minimum.data.ArticleRepository
 import com.example.minimum.data.BookmarksRepository
+import com.example.minimum.data.CommentsRepository
 import com.example.minimum.factory.ViewModelFactory
 import com.example.minimum.storage.AppDatabase
 
@@ -20,7 +21,7 @@ object Injection {
      * [ViewModel] objects.
      */
     fun provideArticlesViewModelFactory(): ViewModelProvider.Factory {
-        return ViewModelFactory(provideArticleRepository(), null)
+        return ViewModelFactory(provideArticleRepository())
     }
 
     fun provideBookmarksViewModelFactory(context: Context): ViewModelProvider.Factory {
@@ -29,6 +30,10 @@ object Injection {
 
     fun provideArticleViewModelFactory(context: Context): ViewModelProvider.Factory {
         return ViewModelFactory(provideArticleRepository(), provideBookmarksRepository(context))
+    }
+
+    fun provideCommentsViewModelFactory(): ViewModelProvider.Factory {
+        return ViewModelFactory(provideArticleRepository(), null, provideCommentsRepository())
     }
 
     /**
@@ -43,4 +48,7 @@ object Injection {
         return BookmarksRepository(AppDatabase.getInstance(context).bookmarkDao())
     }
 
+    private fun provideCommentsRepository(): CommentsRepository {
+        return CommentsRepository(ArticleService.create())
+    }
 }
