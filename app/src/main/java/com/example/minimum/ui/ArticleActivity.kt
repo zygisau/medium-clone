@@ -4,28 +4,26 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.Html
-import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.text.HtmlCompat
 import androidx.core.widget.NestedScrollView
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.minimum.Injection
 import com.example.minimum.R
 import com.example.minimum.databinding.ActivityArticleBinding
 import com.example.minimum.model.Article
-import com.example.minimum.storage.AppDatabase
 import com.example.minimum.utils.SimpleFragmentManager
 import com.example.minimum.utils.observe
 import com.example.minimum.viewmodel.ArticleViewModel
 import com.squareup.picasso.Picasso
+import com.squareup.picasso.RequestCreator
+import io.noties.markwon.Markwon
+import io.noties.markwon.html.HtmlPlugin
+import io.noties.markwon.image.AsyncDrawable
+import io.noties.markwon.image.picasso.PicassoImagesPlugin
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.time.format.DateTimeFormatter
 
@@ -124,7 +122,24 @@ class ArticleActivity : AppCompatActivity() {
     }
 
     private fun bindContent(item: Article) {
-        binding.content.text = Html.fromHtml(item.contentMarkup, HtmlCompat.FROM_HTML_MODE_LEGACY)
+        val markwon = Markwon.builder(this)
+                .usePlugin(HtmlPlugin.create())
+                .usePlugin(PicassoImagesPlugin.create(this))
+                .usePlugin(PicassoImagesPlugin.create(Picasso.get()))
+                .usePlugin(PicassoImagesPlugin.create(object : PicassoImagesPlugin.PicassoStore {
+                    override fun load (drawable: AsyncDrawable): RequestCreator {
+                        return Picasso.get()
+                                .load(drawable.destination)
+                                .tag(drawable);
+                    }
+
+                    override fun cancel(drawable: AsyncDrawable) {
+                        Picasso.get()
+                                .cancelTag(drawable);
+                    }
+                }))
+                .build();
+        item.contentMarkup?.let { markwon.setMarkdown(binding.content, it) };
     }
 
     private fun bindPhoto(item: Article) {

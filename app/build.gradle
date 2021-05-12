@@ -77,4 +77,8 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
     implementation "com.miguelcatalan:materialsearchview:$search_version"
+
+    implementation "io.noties.markwon:core:${markwonVersion}"
+    implementation "io.noties.markwon:html:${markwonVersion}"
+    implementation "io.noties.markwon:image-picasso:${markwonVersion}"
 }
