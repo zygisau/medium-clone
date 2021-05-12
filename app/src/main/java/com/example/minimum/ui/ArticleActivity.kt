@@ -108,15 +108,15 @@ class ArticleActivity : AppCompatActivity() {
             var newIsFabsHidden = newVisibility == View.GONE
             if (binding.floatingLike.visibility != newVisibility && newIsFabsHidden != isFabsHidden) {
                 isFabsHidden = newVisibility == View.GONE
-                    if (newVisibility == View.GONE) {
-                        binding.floatingLike.hide()
-                        binding.floatingComment.hide()
-                        binding.floatingShare.hide()
-                    } else {
-                        binding.floatingLike.show()
-                        binding.floatingComment.show()
-                        binding.floatingShare.show()
-                    }
+                if (newVisibility == View.GONE) {
+                    binding.floatingLike.hide()
+                    binding.floatingComment.hide()
+                    binding.floatingShare.hide()
+                } else {
+                    binding.floatingLike.show()
+                    binding.floatingComment.show()
+                    binding.floatingShare.show()
+                }
             }
         })
     }
@@ -127,7 +127,7 @@ class ArticleActivity : AppCompatActivity() {
                 .usePlugin(PicassoImagesPlugin.create(this))
                 .usePlugin(PicassoImagesPlugin.create(Picasso.get()))
                 .usePlugin(PicassoImagesPlugin.create(object : PicassoImagesPlugin.PicassoStore {
-                    override fun load (drawable: AsyncDrawable): RequestCreator {
+                    override fun load(drawable: AsyncDrawable): RequestCreator {
                         return Picasso.get()
                                 .load(drawable.destination)
                                 .tag(drawable);
@@ -168,6 +168,19 @@ class ArticleActivity : AppCompatActivity() {
     private fun setFloatingButtonsListeners() {
         binding.bookmarkButton.setOnClickListener {
             viewModel.toggleBookmark()
+        }
+        binding.commentButton.setOnClickListener {
+            scrollToComments()
+        }
+        binding.floatingComment.setOnClickListener {
+            scrollToComments()
+        }
+    }
+
+    private fun scrollToComments() {
+        val target = findViewById<View>(R.id.comments_fragment_container)
+        binding.articleMain.post {
+            binding.articleMain.smoothScrollTo(0, target.top)
         }
     }
 
