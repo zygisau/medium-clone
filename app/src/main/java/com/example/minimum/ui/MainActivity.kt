@@ -43,6 +43,10 @@ class MainActivity : AppCompatActivity() {
                         simpleFragmentManager.replaceFragment(BookmarksFragment::class.java, R.id.fragment_container_view)
                         return@OnNavigationItemSelectedListener true
                     }
+                    R.id.navigation_user -> {
+                        simpleFragmentManager.replaceFragment(ProfileFragment::class.java, R.id.fragment_container_view)
+                        return@OnNavigationItemSelectedListener true
+                    }
                 }
                 false
             }

@@ -43,4 +43,12 @@
         <item name="android:minHeight">48dp</item>
         <item name="backgroundTint">?attr/colorOnSecondary</item>
     </style>
+
+    <style name="Switch">
+        <item name="colorOnSurface">?attr/colorOnSecondary</item>
+        <item name="colorSecondary">#505550</item>
+    </style>
+    <style name="Widget.App.Switch" parent="Widget.MaterialComponents.CompoundButton.Switch">
+        <item name="materialThemeOverlay">@style/Switch</item>
+    </style>
 </resources>

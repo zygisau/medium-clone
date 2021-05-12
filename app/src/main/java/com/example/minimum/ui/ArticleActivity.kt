@@ -111,11 +111,11 @@ class ArticleActivity : AppCompatActivity() {
                 if (newVisibility == View.GONE) {
                     binding.floatingLike.hide()
                     binding.floatingComment.hide()
-                    binding.floatingShare.hide()
+//                    binding.floatingShare.hide()
                 } else {
                     binding.floatingLike.show()
                     binding.floatingComment.show()
-                    binding.floatingShare.show()
+//                    binding.floatingShare.show()
                 }
             }
         })
