@@ -11,10 +11,7 @@ import com.example.minimum.model.ArticlesFilter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
 
 class BookmarksViewModel(private val repository: BookmarksRepository,
@@ -30,16 +27,12 @@ class BookmarksViewModel(private val repository: BookmarksRepository,
         val articlesList = withContext(Dispatchers.IO) {
             repository.getArticles().map { it.articleId }
         }
-//        repository.getArticles().map {
-//            it.map { b -> b.articleId }
-//        }.collect {
-//            val filter = ArticlesFilter(it)
-//            val newArticles = articleRepository.getArticlesStream(filter).cachedIn(viewModelScope)
-//            currentSearchResult = newArticles
-//        }
-        val filter = ArticlesFilter(articlesList)
-        val newArticles = articleRepository.getArticlesStream(filter).cachedIn(viewModelScope)
-        currentSearchResult = newArticles
+        var newArticles: Flow<PagingData<Article>> = emptyFlow()
+        if (articlesList.isNotEmpty()) {
+            val filter = ArticlesFilter(articlesList)
+            newArticles = articleRepository.getArticlesStream(filter).cachedIn(viewModelScope)
+            currentSearchResult = newArticles
+        }
         return@coroutineScope newArticles
     }
 }

@@ -6,6 +6,7 @@ import com.example.minimum.api.ArticleService
 import com.example.minimum.data.ArticleRepository
 import com.example.minimum.data.BookmarksRepository
 import com.example.minimum.data.CommentsRepository
+import com.example.minimum.data.SettingsRepository
 import com.example.minimum.factory.ViewModelFactory
 import com.example.minimum.storage.AppDatabase
 
@@ -36,12 +37,16 @@ object Injection {
         return ViewModelFactory(provideArticleRepository(), null, provideCommentsRepository())
     }
 
+    fun provideProfileViewModelFactory(context: Context): ViewModelProvider.Factory {
+        return ViewModelFactory(provideArticleRepository(), null, null, provideSettingsRepository(context))
+    }
+
     /**
      * Creates an instance of [ArticleRepository] based on the [ArticleService] and a
      * [ArticleLocalCache]
      */
     private fun provideArticleRepository(): ArticleRepository {
-        return ArticleRepository(ArticleService.create())
+        return ArticleRepository(getArticleService())
     }
 
     private fun provideBookmarksRepository(context: Context): BookmarksRepository {
@@ -49,6 +54,14 @@ object Injection {
     }
 
     private fun provideCommentsRepository(): CommentsRepository {
-        return CommentsRepository(ArticleService.create())
+        return CommentsRepository(getArticleService())
+    }
+
+    private fun provideSettingsRepository(context: Context): SettingsRepository {
+        return SettingsRepository(AppDatabase.getInstance(context).settingsDao())
+    }
+
+    fun getArticleService(): ArticleService {
+        return ArticleService.create()
     }
 }

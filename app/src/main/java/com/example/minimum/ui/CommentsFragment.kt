@@ -60,7 +60,7 @@ class CommentsFragment() : Fragment(R.layout.comments_fragment) {
 
     private fun determineViewByItemsCount(view: View) {
         commentsListener = adapter.addLoadStateListener() {
-            if (adapter.itemCount > 1) {
+            if (adapter.itemCount >= 1) {
                 view.findViewById<RecyclerView>(R.id.commentsRecyclerView).visibility = View.VISIBLE
                 view.findViewById<TextView>(R.id.no_comments).visibility = View.GONE
             } else {

@@ -5,15 +5,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.minimum.data.ArticleRepository
 import com.example.minimum.data.BookmarksRepository
 import com.example.minimum.data.CommentsRepository
-import com.example.minimum.viewmodel.ArticleViewModel
-import com.example.minimum.viewmodel.ArticlesViewModel
-import com.example.minimum.viewmodel.BookmarksViewModel
-import com.example.minimum.viewmodel.CommentsViewModel
+import com.example.minimum.data.SettingsRepository
+import com.example.minimum.viewmodel.*
 
 class ViewModelFactory(
     private val articleRepository: ArticleRepository,
     private val bookmarksRepository: BookmarksRepository? = null,
-    private val commentsRepository: CommentsRepository? = null
+    private val commentsRepository: CommentsRepository? = null,
+    private val settingsRepository: SettingsRepository? = null
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -44,6 +43,14 @@ class ViewModelFactory(
 
             @Suppress("UNCHECKED_CAST")
             return CommentsViewModel(commentsRepository) as T
+        }
+        if (modelClass.isAssignableFrom(ProfileViewModel::class.java)) {
+            if (settingsRepository == null) {
+                throw IllegalArgumentException("This viewmodel requires settingsRepository")
+            }
+
+            @Suppress("UNCHECKED_CAST")
+            return ProfileViewModel(settingsRepository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

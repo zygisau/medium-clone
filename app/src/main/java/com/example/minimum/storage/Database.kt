@@ -5,11 +5,14 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.minimum.storage.dao.BookmarkDao
+import com.example.minimum.storage.dao.SettingsDao
 import com.example.minimum.storage.model.Bookmark
+import com.example.minimum.storage.model.Settings
 
-@Database(entities = [Bookmark::class], version = 1, exportSchema = true)
+@Database(entities = [Bookmark::class, Settings::class], version = 1, exportSchema = true)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun bookmarkDao(): BookmarkDao
+    abstract fun settingsDao(): SettingsDao
 
     companion object {
 
@@ -24,7 +27,9 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     DATABASE_NAME
-                ).build()
+                )
+//                        .addMigrations(Migration_V1_to_V2())
+                        .build()
                 INSTANCE = instance
                 instance
             }

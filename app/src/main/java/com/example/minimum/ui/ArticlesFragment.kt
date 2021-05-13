@@ -3,6 +3,7 @@ package com.example.minimum.ui
 import android.os.Bundle
 import android.view.*
 import android.widget.ImageButton
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -31,6 +32,8 @@ class ArticlesFragment : Fragment(R.layout.articles_fragment) {
     private lateinit var searchView: MaterialSearchView
     private lateinit var progressBar: LinearProgressIndicator
 
+    private lateinit var listListener: Unit
+
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ArticlesFragmentBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this, Injection.provideArticlesViewModelFactory())
@@ -52,6 +55,7 @@ class ArticlesFragment : Fragment(R.layout.articles_fragment) {
         registerActionToolbar(view)
         registerSearchView(view)
         progressBar = view.findViewById(R.id.progress_bar)
+        determineViewByItemsCount(view)
         return view
     }
 
@@ -109,5 +113,17 @@ class ArticlesFragment : Fragment(R.layout.articles_fragment) {
     private fun loadData(query: String? = null) {
         progressBar.show()
         viewModel.loadArticles(query)
+    }
+
+    private fun determineViewByItemsCount(view: View) {
+        listListener = adapter.addLoadStateListener() {
+            if (adapter.itemCount >= 1) {
+                view.findViewById<RecyclerView>(R.id.listRecycleView).visibility = View.VISIBLE
+                view.findViewById<TextView>(R.id.emptyList).visibility = View.GONE
+            } else {
+                view.findViewById<RecyclerView>(R.id.listRecycleView).visibility = View.GONE
+                view.findViewById<TextView>(R.id.emptyList).visibility = View.VISIBLE
+            }
+        }
     }
 }

@@ -26,6 +26,10 @@ class ArticleRepository(private val service: ArticleService) {
         ).flow
     }
 
+    suspend fun getArticle(articleId: String): Article {
+        return service.getArticle(articleId)
+    }
+
     companion object {
         public const val NETWORK_PAGE_SIZE = 20
     }

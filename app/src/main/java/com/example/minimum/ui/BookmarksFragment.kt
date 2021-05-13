@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat.invalidateOptionsMenu
@@ -28,6 +29,8 @@ class BookmarksFragment: Fragment(R.layout.bookmarks_fragment) {
     private lateinit var adapter: ArticlesAdapter
 
     private var loadJob: Job? = null
+
+    private lateinit var listListener: Unit
 
     override fun onAttach(context: Context) {
         viewModel = ViewModelProvider(this, Injection.provideBookmarksViewModelFactory(context))
@@ -53,6 +56,8 @@ class BookmarksFragment: Fragment(R.layout.bookmarks_fragment) {
 
         val toolbar: Toolbar = view.findViewById(R.id.app_toolbar) as Toolbar
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
+
+        determineViewByItemsCount(view)
         return view
     }
 
@@ -66,6 +71,18 @@ class BookmarksFragment: Fragment(R.layout.bookmarks_fragment) {
         loadJob = lifecycleScope.launch {
             viewModel.getArticles().collectLatest {
                 adapter.submitData(it)
+            }
+        }
+    }
+
+    private fun determineViewByItemsCount(view: View) {
+        listListener = adapter.addLoadStateListener() {
+            if (adapter.itemCount >= 1) {
+                view.findViewById<RecyclerView>(R.id.listRecycleView).visibility = View.VISIBLE
+                view.findViewById<TextView>(R.id.emptyList).visibility = View.GONE
+            } else {
+                view.findViewById<RecyclerView>(R.id.listRecycleView).visibility = View.GONE
+                view.findViewById<TextView>(R.id.emptyList).visibility = View.VISIBLE
             }
         }
     }
