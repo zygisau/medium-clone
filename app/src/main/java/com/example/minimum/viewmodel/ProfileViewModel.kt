@@ -41,9 +41,7 @@ class ProfileViewModel(private val repository: SettingsRepository) : ViewModel()
 
     fun setAlarm(context: Context) {
         val calendar = Calendar.getInstance()
-        calendar.set(Calendar.HOUR_OF_DAY, 21)
-        calendar.set(Calendar.MINUTE, 42)
-        calendar.set(Calendar.SECOND, 30)
+        calendar.add(Calendar.SECOND, 10)
 
         val intent = Intent(context, NotificationReceiver::class.java)
         val pendingIntent = PendingIntent.getBroadcast(context, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT)

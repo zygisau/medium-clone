@@ -1,0 +1,3 @@
+{
+	"/posts?title=:title&_page=:page&_limit=:limit": "/posts/?title_like=:title&_page=:page&_limit=:limit"
+}

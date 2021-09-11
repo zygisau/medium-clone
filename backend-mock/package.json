@@ -1,0 +1,17 @@
+{
+  "name": "medium-mock-server",
+  "version": "1.0.0",
+  "description": "Medium articles puller",
+  "main": "index.js",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "json-server": "^0.16.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "live-server --port=8082"
+  },
+  "author": "",
+  "license": "ISC"
+}

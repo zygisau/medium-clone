@@ -21,7 +21,7 @@ class Notification(private val context: Context) {
         val mNotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val name: CharSequence = context.resources.getString(com.example.minimum.R.string.channel_name)
         val description: String = context.resources.getString(com.example.minimum.R.string.channel_description)
-        val importance = NotificationManager.IMPORTANCE_LOW
+        val importance = NotificationManager.IMPORTANCE_HIGH
         val mChannel = NotificationChannel(channelId, name, importance)
         mChannel.description = description
         mChannel.enableLights(true)
